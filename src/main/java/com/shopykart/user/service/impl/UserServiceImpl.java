@@ -2,12 +2,16 @@ package com.shopykart.user.service.impl;
 
 
 import com.shopykart.user.dto.UserRegisterRequest;
+import com.shopykart.user.dto.UserResponseDTO;
 import com.shopykart.user.entity.User;
 import com.shopykart.user.enums.RegistrationType;
 import com.shopykart.user.repository.UserRepository;
 import com.shopykart.user.service.UserService;
 import com.shopykart.user.service.strategy.UserRegistrationStrategy;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,4 +45,30 @@ public class UserServiceImpl implements UserService {
         );
                  userRepository.save(user);
     }
+
+    @Override
+    public UserResponseDTO getLoggedInUserProfile() {
+
+        // 1️⃣ Get authentication from security context
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        // 2️⃣ Extract logged-in user's email (username)
+        String email = authentication.getName();
+
+        // 3️⃣ Fetch user from database
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 4️⃣ Map Entity → DTO
+        return new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getCreatedAt()
+        );
+    }
+
 }

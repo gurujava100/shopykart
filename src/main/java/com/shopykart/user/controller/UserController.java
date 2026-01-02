@@ -1,5 +1,6 @@
 package com.shopykart.user.controller;
 
+import com.shopykart.common.ApiResponse;
 import com.shopykart.user.dto.UserRegisterRequest;
 import com.shopykart.user.enums.RegistrationType;
 import com.shopykart.user.service.UserService;
@@ -16,11 +17,16 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(
+    public ResponseEntity<ApiResponse<Void>> register(
             @RequestBody @Valid UserRegisterRequest request
     ) {
         userService.registerUser(request);
-        return ResponseEntity.ok("User registered successfully");
+
+        return ResponseEntity.ok(
+                ApiResponse.success(null, "User registered successfully")
+        );
     }
+
 }
