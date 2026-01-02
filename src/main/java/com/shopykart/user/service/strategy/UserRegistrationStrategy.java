@@ -5,5 +5,5 @@ import com.shopykart.user.enums.RegistrationType;
 public interface UserRegistrationStrategy {
     void register();
 
-    RegistrationType getType();
+      RegistrationType getType();
 }
