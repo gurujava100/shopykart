@@ -1,4 +1,4 @@
-package com.shopykart.auth.security;
+/*package com.shopykart.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,3 +30,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+*/
